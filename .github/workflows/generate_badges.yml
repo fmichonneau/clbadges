@@ -44,11 +44,6 @@ jobs:
       - name: Commit and Push to gh-pages
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          # clean up gh-pages
-          cd gh-pages
-          git rm -rf --ignore-unmatch .
-          git restore --staged .
-          cd ..
           ## copy _badges into gh-pages
           cp _badges/*.svg gh-pages/
           ## commit gh-pages
