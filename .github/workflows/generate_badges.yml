@@ -30,7 +30,7 @@ jobs:
         run: |
           library(clbadges)
           validate_review_labels()
-          list_issues <- extract_review_issues(get_all_review_repo_issues())
+          list_issues <- extract_review_issues()
           generate_review_badges(list_issues)
         shell: Rscript {0}
 
