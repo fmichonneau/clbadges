@@ -1,6 +1,4 @@
 name: "build-review-badges"
-description: "Build Review Badges for lessons submitted to The Carpentries Lab"
-author: "François Michonneau"
 
 on:
   push:
