@@ -1,4 +1,39 @@
-## TODO: need to test that labels on GitHub are what we expect
+validate_review_labels <- function(owner = "carpentries-lab",
+                                   repo = "reviews",
+                                   expected = c(
+                                     "1/editor-checks",
+                                     "2/seeking-reviewers",
+                                     "3/reviewer(s)-assigned",
+                                     "4/review(s)-in-awaiting-changes",
+                                     "5/awaiting-reviewer(s)-response",
+                                     "6/approved"
+                                   )) {
+
+  lbls <- gh::gh(
+    "GET /repos/:owner/:repo/labels",
+    owner = owner,
+    repo = repo
+  )
+
+  review_lbls <- lbls %>%
+    purrr::map_chr("name") %>%
+    grep("^[0-9]/", ., value = TRUE)
+
+  check <- all(
+    review_lbls %in% expected &
+      expected %in% review_lbls
+  )
+
+  if (!check) {
+    stop("The review labels on GitHub have changed: \n",
+      "on GitHub: ", paste(review_lbls, collapse = ", "), "\n",
+      "here: ", paste(expected, collapse = ", ")
+    )
+  }
+
+  check
+}
+
 
 ## - issues with labels that start with number/ (like 2/) means that review is
 ## in progress; except for 6/approved that means review process is complete
@@ -7,8 +42,7 @@
 ## submission (we don't have to wait for daily build to happen before it's
 ## available)
 
-get_all_review_repo_issues_raw <- function(owner = "carpentries-lab",
-                                           repo = "reviews") {
+get_all_review_repo_issues_raw <- function(owner, repo) {
 
   current_res <- gh::gh(
     "GET /repos/:owner/:repo/issues",
@@ -40,7 +74,8 @@ get_all_review_repo_issues_raw <- function(owner = "carpentries-lab",
 }
 
 
-get_all_review_repo_issues <- function(owner, repo) {
+get_all_review_repo_issues <- function(owner = "carpentries-lab",
+                                       repo = "reviews") {
   get_all_review_repo_issues_raw(owner, repo) %>%
     purrr::map_dfr(
       function(.x) {
