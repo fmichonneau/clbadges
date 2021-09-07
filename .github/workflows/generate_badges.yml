@@ -47,7 +47,7 @@ jobs:
           # clean up gh-pages
           cd gh-pages
           git rm -rf --ignore-unmatch .
-          git restore --staged
+          git restore --staged .
           cd ..
           ## copy _badges into gh-pages
           cp _badges/*.svg gh-pages/
