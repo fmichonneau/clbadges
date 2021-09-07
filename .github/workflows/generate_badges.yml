@@ -19,51 +19,51 @@ jobs:
     if: github.repository_owner == 'carpentries-lab'
     runs-on: "ubuntu-latest"
 
-  defaults:
-    run:
-      shell: bash
+    defaults:
+      run:
+        shell: bash
 
-  steps:
-    - uses: actions/checkout@v2
-    - uses: r-lib/actions/setup-r@v1
-    - uses: r-lib/actions/setup-r-dependencies@v1
-      with:
-        extra-packages: devtools
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r-dependencies@v1
+        with:
+          extra-packages: devtools
 
-    - name: Install clbadges
-      run: |
-        devtools::install()
+      - name: Install clbadges
+        run: |
+          devtools::install()
 
-    - name: Generate review labels
-      run: |
-        validate_review_labels()
-        list_issues <- extract_review_issues(get_all_review_repo_issues())
-        generate_review_badges(list_issues)
-      script: Rscript {0}
+      - name: Generate review labels
+        run: |
+          validate_review_labels()
+          list_issues <- extract_review_issues(get_all_review_repo_issues())
+          generate_review_badges(list_issues)
+        script: Rscript {0}
 
-    - name: Checkout github pages
-      if: ${{ github.ref == 'refs/heads/main' }}
-      uses: actions/checkout@v2
-      with:
-        ref: gh-pages
-        path: gh-pages
+      - name: Checkout github pages
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: gh-pages
 
-    - name: Commit and Push to gh-pages
-      if: ${{ github.ref == 'refs/heads/main' }}
-      run: |
-        # clean up gh-pages
-        cd gh-pages
-        git rm -rf .
-        git restore --staged
-        cd ..
-        ## copy _badges into gh-pages
-        cp _badges/*.svg gh-pages/
-        ## commit gh-pages
-        cd gh-pages
-        git config --local user.email "actions@github.com"
-        git config --local user.name "GitHub Actions"
-        git add -A *.svg
-        git commit --allow-empty -m "[Github Actions] render review badges (via ${{ github.sha }})"
-        git push origin gh-pages
-        # return
-        cd ..
+      - name: Commit and Push to gh-pages
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          # clean up gh-pages
+          cd gh-pages
+          git rm -rf .
+          git restore --staged
+          cd ..
+          ## copy _badges into gh-pages
+          cp _badges/*.svg gh-pages/
+          ## commit gh-pages
+          cd gh-pages
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add -A *.svg
+          git commit --allow-empty -m "[Github Actions] render review badges (via ${{ github.sha }})"
+          git push origin gh-pages
+          # return
+          cd ..
