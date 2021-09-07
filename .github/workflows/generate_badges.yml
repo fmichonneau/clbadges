@@ -37,7 +37,7 @@ jobs:
           validate_review_labels()
           list_issues <- extract_review_issues(get_all_review_repo_issues())
           generate_review_badges(list_issues)
-        script: Rscript {0}
+        shell: Rscript {0}
 
       - name: Checkout github pages
         if: ${{ github.ref == 'refs/heads/main' }}
