@@ -1,46 +1,4 @@
-validate_review_labels <- function(owner = "carpentries-lab",
-                                   repo = "reviews",
-                                   expected = c(
-                                     "1/editor-checks",
-                                     "2/seeking-reviewers",
-                                     "3/reviewer(s)-assigned",
-                                     "4/review(s)-in-awaiting-changes",
-                                     "5/awaiting-reviewer(s)-response",
-                                     "6/approved"
-                                   )) {
-
-  lbls <- gh::gh(
-    "GET /repos/:owner/:repo/labels",
-    owner = owner,
-    repo = repo
-  )
-
-  review_lbls <- lbls %>%
-    purrr::map_chr("name") %>%
-    grep("^[0-9]/", ., value = TRUE)
-
-  check <- all(
-    review_lbls %in% expected &
-      expected %in% review_lbls
-  )
-
-  if (!check) {
-    stop("The review labels on GitHub have changed: \n",
-      "on GitHub: ", paste(review_lbls, collapse = ", "), "\n",
-      "here: ", paste(expected, collapse = ", ")
-    )
-  }
-
-  check
-}
-
-
-## - issues with labels that start with number/ (like 2/) means that review is
-## in progress; except for 6/approved that means review process is complete
-
-## - we create 10 more "unknown" badges so images are ready at time of
-## submission (we don't have to wait for daily build to happen before it's
-## available)
+##' @importFrom rlang .data
 
 get_all_review_repo_issues_raw <- function(owner, repo) {
 
@@ -73,9 +31,7 @@ get_all_review_repo_issues_raw <- function(owner, repo) {
   res
 }
 
-
-get_all_review_repo_issues <- function(owner = "carpentries-lab",
-                                       repo = "reviews") {
+get_all_review_repo_issues <- function(owner, repo) {
   get_all_review_repo_issues_raw(owner, repo) %>%
     purrr::map_dfr(
       function(.x) {
@@ -91,29 +47,45 @@ max_review_repo_number <- function(list_issues) {
   max(list_issues[["issue"]])
 }
 
-extract_review_issues <- function(list_issues) {
+##' Extract from the Carpentries Lab repository that tracks lesson submissions,
+##' issues that are assigned review labels (i.e., that have labels that start
+##' with a number followed with a / such as `2/reviewer(s)-assigned`).
+##'
+##' @title Extract Review Issues from the repository
+##' @param owner Owner of the repository
+##' @param repo Name of the repository
+##' @return A two-column tibble with the issue number and the review label
+##'   assigned.
+##' @export
+extract_review_issues <- function(owner = "carpentries-lab",
+                                  repo = "reviews") {
+
+  list_issues <- get_all_review_repo_issues(owner, repo)
+
   max_issue_number <- max_review_repo_number(list_issues) + 1
+
+  review_label <- purrr::pmap_chr(list_issues, function(issue, labels, ...) {
+    r <- grep("^[0-9]/", labels, value = TRUE)
+
+    if (length(r) < 1) {
+      return(NA_character_)
+    }
+
+    if (length(r) > 1) {
+      stop(
+        "more than one review label detected for issue: ", issue,
+        call. = FALSE
+      )
+    }
+
+    r
+  })
 
   list_issues %>%
     dplyr::mutate(
-      review_label = purrr::pmap_chr(., function(issue, labels, ...) {
-        r <- grep("^[0-9]/", labels, value = TRUE)
-
-        if (length(r) < 1) {
-          return(NA_character_)
-        }
-
-        if (length(r) > 1) {
-          stop(
-            "more than one review label detected for issue: ", issue,
-            call. = FALSE
-          )
-        }
-
-        r
-      })
+      review_label = review_label
     ) %>%
-  dplyr::filter(!is.na(review_label)) %>%
+  dplyr::filter(!is.na(.data$review_label)) %>%
   dplyr::mutate(
     review_badge = dplyr::case_when(
       .data$review_label == "6/approved" ~ "peer-reviewed",
@@ -150,6 +122,18 @@ copy_badge <- function(issue, badge, folder = "_badges") {
   res
 }
 
+##' Take the output of `extract_review_issues()` and generate SVG badges to
+##' include in the README of the lesson repositories that are under review or
+##' have been accepted in the Carpentries Lab.
+##'
+##' The images used to generate the badges are stored in the `inst/badges`
+##' folder.
+##'
+##' @title Generate Review Badges
+##' @param list_issues the output of `extract_review_issues()`
+##' @param folder the folder where the generated badges will be stored
+##' @return nothing, use for its side effects (generates the badges)
+##' @export
 generate_review_badges <- function(list_issues, folder = "_badges") {
 
   if (!dir.exists(folder)) {

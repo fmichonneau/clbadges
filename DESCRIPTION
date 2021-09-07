@@ -1,21 +1,25 @@
 Package: clbadges
-Title: What the Package Does (One Line, Title Case)
+Title: Create Badges for Lessons Submitted to The Carpentries Lab
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
+Authors@R:
+    person(given = "Francois",
+           family = "Michonneau",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "francois.michonneau@gmail.com",
+           comment = c(ORCID = ""))
+Description: Generate SVG badges to include in the README of the lessons submitted
+  to The Carpentries Lab.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: 
+Imports:
     dplyr,
     gh,
-    purrr
-URL: https://github.com/fmichonneau/clbadges
-BugReports: https://github.com/fmichonneau/clbadges/issues
+    magrittr,
+    tibble,
+    purrr,
+    rlang
+URL: https://github.com/carpentries-lab/clbadges
+BugReports: https://github.com/carpentries-lab/clbadges/issues
