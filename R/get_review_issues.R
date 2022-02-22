@@ -89,7 +89,7 @@ extract_review_issues <- function(owner = "carpentries-lab",
   dplyr::mutate(
     review_badge = dplyr::case_when(
       .data$review_label == "6/approved" ~ "peer-reviewed",
-      TRUE ~ "pending"
+      TRUE ~ "in-review"
     )
   ) %>%
   dplyr::bind_rows(
