@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="87.065979"
+   width="113.06598"
    height="20"
    role="img"
    aria-label="CarpentriesLab: Peer Reviewed"
    version="1.1"
    id="svg13759"
-   sodipodi:docname="CarpentriesLab-in-review.svg"
+   sodipodi:docname="CarpentriesLab-peer-reviewed.svg"
    inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -16,26 +16,7 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs13763">
-    <linearGradient
-       id="s-2"
-       x2="0"
-       y2="56.213879"
-       gradientTransform="matrix(1.5488343,0,0,0.35578403,-1.0301927e-7,1.0889893e-6)"
-       x1="0"
-       y1="0"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         offset="0"
-         stop-color="#bbb"
-         stop-opacity=".1"
-         id="stop14128" />
-      <stop
-         offset="1"
-         stop-opacity=".1"
-         id="stop14130" />
-    </linearGradient>
-  </defs>
+     id="defs13763" />
   <sodipodi:namedview
      id="namedview13761"
      pagecolor="#ffffff"
@@ -51,7 +32,7 @@
      fit-margin-bottom="0"
      inkscape:zoom="6.9782609"
      inkscape:cx="46.716511"
-     inkscape:cy="21.495327"
+     inkscape:cy="10.031153"
      inkscape:window-width="2560"
      inkscape:window-height="1376"
      inkscape:window-x="0"
@@ -97,6 +78,45 @@
      x="0"
      y="0"
      style="stroke-width:0.487102" />
+  <rect
+     x="22.065981"
+     width="91"
+     height="20"
+     fill="#44cc11"
+     id="rect13743"
+     y="0" />
+  <rect
+     width="113.06598"
+     height="20"
+     fill="url(#s)"
+     id="rect13745"
+     style="fill:url(#s);stroke-width:0.783894"
+     x="0"
+     y="0" />
+  <g
+     id="g14059"
+     transform="translate(-70.934019)">
+    <text
+       aria-hidden="true"
+       x="1375"
+       y="150"
+       fill="#010101"
+       fill-opacity="0.3"
+       transform="scale(0.1)"
+       textLength="810"
+       id="text13753"
+       lengthAdjust="spacing"
+       style="font-size:110px;font-family:Verdana, Geneva, 'DejaVu Sans', sans-serif;text-anchor:middle;text-rendering:geometricPrecision">Peer Reviewed</text>
+    <text
+       x="1375"
+       y="140"
+       transform="scale(0.1)"
+       fill="#ffffff"
+       textLength="810"
+       id="text13755"
+       lengthAdjust="spacing"
+       style="font-size:110px;font-family:Verdana, Geneva, 'DejaVu Sans', sans-serif;text-anchor:middle;text-rendering:geometricPrecision">Peer Reviewed</text>
+  </g>
   <metadata
      id="metadata13765">
     <rdf:RDF>
@@ -201,43 +221,4 @@
          cx="-41.889236" />
     </g>
   </g>
-  <rect
-     x="22.065981"
-     width="65"
-     height="20"
-     fill="#dfb317"
-     id="rect14138"
-     y="0" />
-  <g
-     id="g14411"
-     transform="translate(-70.934017)">
-    <text
-       aria-hidden="true"
-       x="1245"
-       y="150"
-       fill="#010101"
-       fill-opacity="0.3"
-       transform="scale(0.1)"
-       textLength="550"
-       id="text14148"
-       lengthAdjust="spacing"
-       style="font-size:110px;font-family:Verdana, Geneva, 'DejaVu Sans', sans-serif;text-anchor:middle;text-rendering:geometricPrecision">In Review</text>
-    <text
-       x="1245"
-       y="140"
-       transform="scale(0.1)"
-       fill="#ffffff"
-       textLength="550"
-       id="text14150"
-       lengthAdjust="spacing"
-       style="font-size:110px;font-family:Verdana, Geneva, 'DejaVu Sans', sans-serif;text-anchor:middle;text-rendering:geometricPrecision">In Review</text>
-  </g>
-  <rect
-     width="87.065979"
-     height="20"
-     fill="url(#s)"
-     id="rect14140"
-     style="fill:url(#s-2);stroke-width:0.742328"
-     x="0"
-     y="0" />
 </svg>
